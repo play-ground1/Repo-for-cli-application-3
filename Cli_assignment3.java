@@ -206,8 +206,32 @@ public class Cli_assignment3 {
            id= idValidation();
            name=nameValidation();
 
-
            
+           for (int i = 0; i < customers.length; i++) {
+               if (customers[i][0].equals(id)) {
+                   foundCustomer = true;
+                   balance = Double.valueOf(customers[i][2]).doubleValue();
+                   System.out.println("Current Account Balance: Rs." + balance);
+                   System.out.println("Available Account Balance: Rs." + (balance-500));
+                   break;
+               }
+           }
+       
+           if (!foundCustomer) {
+               System.out.println("Customer not found.");
+           }
+       
+           System.out.println();
+           System.out.print("Do you want to continue (Y/n)? ");
+           if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) {
+               continue;
+           }
+           screen = DASHBOARD;
+           break;
+
+           case 
+       
+
 
 
             }
