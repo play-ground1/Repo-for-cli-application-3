@@ -1,6 +1,7 @@
-import java.util.Scanner;
 
-public class Cli_assignment3 {
+    import java.util.Scanner;
+
+public class cli_a {
     private static final Scanner SCANNER = new Scanner(System.in);
 
     public static void main(String[] args) {
@@ -23,7 +24,9 @@ public class Cli_assignment3 {
         String name;
         double balance;
         boolean foundCustomer = false;
-        String id = "";
+        String id="";
+        
+    
 
         do {
             final String APP_TITLE = String.format("%s%s%s",
@@ -76,12 +79,12 @@ public class Cli_assignment3 {
                     break;
 
                 case CREATE_ACCOUNT:
-                    boolean valid=false;
+                    boolean valid;
                     id = "SDB-" + String.format("%05d", (customers.length + 1));
                     System.out.printf("New Customer ID: %s \n", id);
                     
 
-                    name = nameValidation();
+                   name = nameValidation();
                  
 
                    
@@ -123,10 +126,23 @@ public class Cli_assignment3 {
 
             case DEPOSIT:
 
-            valid=idValidation();
-            for (int i = 0; i < customers.length; i++) {
-                if(customers[i][0].equals(id)){
-                    foundCustomer=true;
+            
+            valid=idValidation1();
+            if(!valid){
+                System.out.println();
+                  System.out.print("Do you want to continue (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;  
+
+            }
+         
+            else{
+
+           for (int i = 0; i < customers.length; i++) {
+                            if (customers[i][0].equals(id)) {
+                                foundCustomer = true;
+            
                 do {
                 valid = true;
                 System.out.print("Deposit Amount (Rs.): ");
@@ -146,130 +162,29 @@ public class Cli_assignment3 {
             } while (!valid);break;         
         }
       }
-
+    }
       System.out.println();
       System.out.print("Do you want to continue (Y/n)? ");
       if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
       screen = DASHBOARD;
       break;  
 
-            case WITHDRAWS:
-            valid=idValidation();
-            for (int i = 0; i < customers.length; i++) {
-                if(customers[i][0].equals(id)){
-                    foundCustomer=true;
-                do {
-                valid = true;
-                System.out.print("Withdraw Amount (Rs.): ");
-                double withdrawAmount = SCANNER.nextDouble();
-                SCANNER.nextLine();
-        
-                if (withdrawAmount < 100.00) {
-                    valid = false;
-                    System.out.printf("%sInsufficient Amount. Withdraw should be more than Rs.100.00%s \n", COLOR_RED_BOLD, RESET);
-                } else {
-                    balance = Double.valueOf(customers[i][2]).doubleValue();
-                    balance -= withdrawAmount;
-                    customers[i][2] = Double.toString(balance);
-                    System.out.println("Withdraw was successful.");
-                    System.out.println("New Balance: " + balance);
-                }
-            } while (!valid);         
-        }
+    
       }
-
-      case TRANSFER:
-      valid= idValidation();
-      for (int i = 0; i < customers.length; i++) {
-        if(customers[i][0].equals(id)){
-               foundCustomer=true;
-            do {
-           valid = true;
-           System.out.print("Enter Amount (Rs.): ");
-           double transferAmount = SCANNER.nextDouble();
-           SCANNER.nextLine();
-   
-           if (transferAmount < 100.00) {
-               valid = false;
-               System.out.printf("%sInsufficient Amount. Transfer should be more than Rs.100.00%s \n", COLOR_RED_BOLD, RESET);
-           } else {
-               balance = Double.valueOf(customers[i][2]).doubleValue();
-               balance -= transferAmount;
-               customers[i][2] = Double.toString(balance);
-               System.out.println("Transfer was successful.");
-               System.out.println("From A/C Balance: " + balance);
-           }
-       } while (!valid);         
-   }
- }
-          case CHECK_ACCOUNT_BALANCE:
-
-           valid= idValidation();
-           name=nameValidation();
-
-           
-           for (int i = 0; i < customers.length; i++) {
-               if (customers[i][0].equals(id)) {
-                   foundCustomer = true;
-                   balance = Double.valueOf(customers[i][2]).doubleValue();
-                   System.out.println("Current Account Balance: Rs." + balance);
-                   System.out.println("Available Account Balance: Rs." + (balance-500));
-                   break;
-               }
-           }
-       
-           if (!foundCustomer) {
-               System.out.println("Customer not found.");
-           }
-       
-           System.out.println();
-           System.out.print("Do you want to continue (Y/n)? ");
-           if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) {
-               continue;
-           }
-           screen = DASHBOARD;
-           break;
-
-           case DELETE_ACCOUNT:
-           valid=idValidation();
-           int deleteIndex=0;
-           
-           for (int i = 0; i < customers.length; i++) {
-            if (customers[i][0].equals(id)) {
-            foundCustomer = true;
-            deleteIndex = i;
-            break;
-
-        }
-            
-           }
-           if (!foundCustomer) {
-               System.out.println("Customer not found.");
-           }
-       
-           System.out.println();
-           System.out.print("Do you want to continue (Y/n)? ");
-           if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) {
-               continue;
-           }
-           screen = DASHBOARD;
-           break;
-
-
-
-            }
         } while (true);
     }
 
 
-         public static boolean idValidation() {
-            System.out.print("Enter Customer Account Number: ");
-            String id = SCANNER.nextLine().strip();
+
+
+    public static boolean idValidation1() {
+        System.out.print("Enter Customer Account Number: ");
+         String id = SCANNER.nextLine().strip();
        // boolean valid = true;
-                 if (id.startsWith("SDB-") && id.length() == 9) {
-                String numberPart = id.substring(5);
-                    for (int i = 0; i < numberPart.length(); i++) {
-                       if (!Character.isDigit(numberPart.charAt(i))) {
+        if (id.startsWith("SDB-") && id.length() == 9) {
+            String numberPart = id.substring(5);
+            for (int i = 0; i < numberPart.length(); i++) {
+                if (!Character.isDigit(numberPart.charAt(i))) {
                     return false;
                 }
             }
@@ -279,41 +194,40 @@ public class Cli_assignment3 {
         }
     }
 
+   
+
+    public static String nameValidation() { 
+        final String COLOR_RED_BOLD = "\033[31;1m";
+        final String RESET = "\033[0m";
+        final String ERROR_MSG = String.format("\t%s%s%s\n", COLOR_RED_BOLD, "%s", RESET);
+
+            boolean valid;
+            String name;
+do {
+            valid = true;
+            System.out.print("Name: ");
+            name = SCANNER.nextLine().strip();
+            if (name.isBlank()) {
+                System.out.printf("%sName can't be empty%s\n", COLOR_RED_BOLD, RESET);
+                valid = false;
+                continue;
+            }
+            for (int i = 0; i < name.length(); i++) {
+                if (!(Character.isLetter(name.charAt(i)) ||
+                        Character.isSpaceChar(name.charAt(i)))) {
+                    System.out.printf("%sInvalid Name%s\n", COLOR_RED_BOLD, RESET);
+                    valid = false;
+                    break;
+                }
+            }
+        } while (!valid);
+
+        return(name);
 
 
-
-
-        public static String nameValidation() { 
-                    final String COLOR_RED_BOLD = "\033[31;1m";
-                    final String RESET = "\033[0m";
-                    final String ERROR_MSG = String.format("\t%s%s%s\n", COLOR_RED_BOLD, "%s", RESET);
-
-                        boolean valid;
-                        String name;
-            do {
-                        valid = true;
-                        System.out.print("Name: ");
-                        name = SCANNER.nextLine().strip();
-                        if (name.isBlank()) {
-                            System.out.printf("%sName can't be empty%s\n", COLOR_RED_BOLD, RESET);
-                            valid = false;
-                            continue;
-                        }
-                        for (int i = 0; i < name.length(); i++) {
-                            if (!(Character.isLetter(name.charAt(i)) ||
-                                    Character.isSpaceChar(name.charAt(i)))) {
-                                System.out.printf("%sInvalid Name%s\n", COLOR_RED_BOLD, RESET);
-                                valid = false;
-                                break;
-                            }
-                        }
-                    } while (!valid);
-
-                    return(name);
-
-
-        }
-
-
-    
 }
+
+
+
+}
+
