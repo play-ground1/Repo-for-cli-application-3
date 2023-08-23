@@ -25,6 +25,16 @@ public class Cli_assignment3 {
         boolean foundCustomer = false;
         String id = "";
 
+        // public static String gotoDashboard(){
+        //     System.out.println();
+        //           System.out.print("Do you want to continue (Y/n)? ");
+        //             if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+        //             screen = DASHBOARD;
+        //             break;  
+                    
+
+        // }
+
         do {
             final String APP_TITLE = String.format("%s%s%s",
                     COLOR_BLUE_BOLD, screen, RESET);
@@ -82,9 +92,7 @@ public class Cli_assignment3 {
                     
 
                     name = nameValidation();
-                 
-
-                   
+         
                     do {
                         System.out.print("Initial Deposit (Rs.): ");
                         balance = SCANNER.nextDouble();
@@ -116,14 +124,21 @@ public class Cli_assignment3 {
                     screen = DASHBOARD;
                     break;
 
-                // Add other cases here
-
                 default:
                     System.out.println("Invalid option");
 
             case DEPOSIT:
 
             valid=idValidation();
+            if(!valid){
+                System.out.println();
+                  System.out.print("Do you want to continue (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;  
+
+            }
+
             for (int i = 0; i < customers.length; i++) {
                 if(customers[i][0].equals(id)){
                     foundCustomer=true;
@@ -153,8 +168,16 @@ public class Cli_assignment3 {
       screen = DASHBOARD;
       break;  
 
-            case WITHDRAWS:
+      case WITHDRAWS:
             valid=idValidation();
+               if(!valid){
+                System.out.println();
+                  System.out.print("Do you want to continue (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;  
+            }
+
             for (int i = 0; i < customers.length; i++) {
                 if(customers[i][0].equals(id)){
                     foundCustomer=true;
@@ -180,6 +203,15 @@ public class Cli_assignment3 {
 
       case TRANSFER:
       valid= idValidation();
+         if(!valid){
+                System.out.println();
+                  System.out.print("Do you want to continue (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;  
+
+            }
+
       for (int i = 0; i < customers.length; i++) {
         if(customers[i][0].equals(id)){
                foundCustomer=true;
@@ -205,6 +237,15 @@ public class Cli_assignment3 {
           case CHECK_ACCOUNT_BALANCE:
 
            valid= idValidation();
+              if(!valid){
+                System.out.println();
+                  System.out.print("Do you want to continue (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;  
+
+            }
+
            name=nameValidation();
 
            
@@ -230,8 +271,17 @@ public class Cli_assignment3 {
            screen = DASHBOARD;
            break;
 
-           case DELETE_ACCOUNT:
+           case DELETE_ACCOUNT://have  to complete
            valid=idValidation();
+              if(!valid){
+                System.out.println();
+                  System.out.print("Do you want to continue (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;  
+
+            }
+
            int deleteIndex=0;
            
            for (int i = 0; i < customers.length; i++) {
@@ -255,17 +305,12 @@ public class Cli_assignment3 {
            screen = DASHBOARD;
            break;
 
-
-
             }
         } while (true);
     }
-
-
          public static boolean idValidation() {
             System.out.print("Enter Customer Account Number: ");
             String id = SCANNER.nextLine().strip();
-       // boolean valid = true;
                  if (id.startsWith("SDB-") && id.length() == 9) {
                 String numberPart = id.substring(5);
                     for (int i = 0; i < numberPart.length(); i++) {
@@ -278,10 +323,6 @@ public class Cli_assignment3 {
             return false;
         }
     }
-
-
-
-
 
         public static String nameValidation() { 
                     final String COLOR_RED_BOLD = "\033[31;1m";
@@ -311,9 +352,5 @@ public class Cli_assignment3 {
 
                     return(name);
 
-
-        }
-
-
-    
+        } 
 }
