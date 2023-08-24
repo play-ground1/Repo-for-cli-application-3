@@ -25,16 +25,6 @@ public class Cli_assignment3 {
         boolean foundCustomer = false;
         String id = "";
 
-        // public static String gotoDashboard(){
-        //     System.out.println();
-        //           System.out.print("Do you want to continue (Y/n)? ");
-        //             if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
-        //             screen = DASHBOARD;
-        //             break;  
-                    
-
-        // }
-
         do {
             final String APP_TITLE = String.format("%s%s%s",
                     COLOR_BLUE_BOLD, screen, RESET);
@@ -132,7 +122,7 @@ public class Cli_assignment3 {
             valid=idValidation();
             if(!valid){
                 System.out.println();
-                  System.out.print("Do you want to continue (Y/n)? ");
+                  System.out.print("Account number dose not exist. Do you want to continue (Y/n)? ");
                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
                     screen = DASHBOARD;
                     break;  
@@ -206,24 +196,39 @@ public class Cli_assignment3 {
       screen = DASHBOARD;
       break;  
 
+
+
+
+
+
+
+
+
+
+
+
+
+
       case TRANSFER:
+
       valid= idValidation();
          if(!valid){
                 System.out.println();
-                  System.out.print("Do you want to continue (Y/n)? ");
+                  System.out.print("Account number dose not exist. Do you want to continue (Y/n)? ");
                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
                     screen = DASHBOARD;
                     break;  
-
             }
 
       for (int i = 0; i < customers.length; i++) {
+         double transferAmount;
         if(customers[i][0].equals(id)){
                foundCustomer=true;
             do {
            valid = true;
-           System.out.print("Enter Amount (Rs.): ");
-           double transferAmount = SCANNER.nextDouble();
+
+           System.out.print("Enter amount to trnsfer (Rs.): ");
+           transferAmount = SCANNER.nextDouble();
            SCANNER.nextLine();
    
            if (transferAmount < 100.00) {
@@ -237,20 +242,41 @@ public class Cli_assignment3 {
                System.out.println("From A/C Balance: " + balance);
            }
        } while (!valid);         
+       
    }
- }
+}
 
-      System.out.println();
-      System.out.print("Do you want to continue (Y/n)? ");
-      if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
-      screen = DASHBOARD;
-      break;  
+//       valid= idValidation();
+//          if(!valid){
+//                 System.out.println();
+//                   System.out.print("Account number dose not exist. Do you want to continue (Y/n)? ");
+//                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+//                     screen = DASHBOARD;
+//                     break;  
+//             }
+
+//       for (int i = 0; i < customers.length; i++) {
+//          double transferAmount;
+//         if(customers[i][0].equals(id)){
+//                foundCustomer=true;
+//             do {
+//            valid = true;
+//                balance = Double.valueOf(customers[i][2]).doubleValue();
+//                balance -= transferAmount;
+//                customers[i][2] = Double.toString(balance);
+//                System.out.println("To A/C Balance: " + balance);
+           
+//        } while (!valid);         
+       
+//    }
+// }
+
           case CHECK_ACCOUNT_BALANCE:
 
            valid= idValidation();
               if(!valid){
                 System.out.println();
-                  System.out.print("Do you want to continue (Y/n)? ");
+                  System.out.print("Account number dose not exist.Do you want to continue (Y/n)? ");
                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
                     screen = DASHBOARD;
                     break;  
@@ -283,41 +309,38 @@ public class Cli_assignment3 {
            valid=idValidation();
               if(!valid){
                 System.out.println();
-                  System.out.print("Do you want to continue (Y/n)? ");
+                  System.out.print("Account number dose not exist. Do you want to continue (Y/n)? ");
                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
                     screen = DASHBOARD;
                     break;  
 
             }
         if(valid){
-           int deleteIndex=0;
-           
-           for (int i = 0; i < customers.length; i++) {
-            if (customers[i][0].equals(id)) {
-            foundCustomer = true;
-            deleteIndex = i;
-            break;
-
-        }
-        String[][] deleteCustomers = new String[customers.length - 1][3];
-        for (int j = 0; j < deleteCustomers.length; j++) {
-            if(j<deleteIndex){
-                deleteCustomers[j]=customers[j];
-            }
-            if(j>=deleteIndex){
-                deleteCustomers[j]=customers[j+1];
+       
+            int deleteIndex = 0;
+            for (int i = 0; i < customers.length; i++) {
+                if (customers[i][0].equals(id)) {
+                    foundCustomer = true;
+                    deleteIndex = i;
+                    break;
+                }
             }
         
-            customers=deleteCustomers;
-        }
+            if (foundCustomer) {
+                String[][] deletCustomers = new String[customers.length - 1][3];
+                int newIndex = 0;
+                for (int i = 0; i < customers.length; i++) {
+                  if (i != deleteIndex) {
+                        deletCustomers[newIndex] = customers[i];
+                         newIndex++;
+                    }
+                }
+                customers = deletCustomers;
+                System.out.println("Account deleted successfully.");
     }
-            System.out.println("Account deleted successfully ");
             
            }
-           if (!foundCustomer) {
-               System.out.println("Customer not found.");
-           }
-       
+          
            System.out.println();
            System.out.print("Do you want to continue (Y/n)? ");
            if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) {
