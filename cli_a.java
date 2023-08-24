@@ -194,6 +194,44 @@ public class cli_a {
         }
     }
 
+    public static double idValidation2(double input){
+        final String CLEAR = "\033[H\033[2J";
+        final String COLOR_BLUE_BOLD = "\033[34;1m";
+        final String COLOR_RED_BOLD = "\033[31;1m";
+        final String RESET = "\033[0m";
+
+
+      String[][] customers = new String[0][];
+      boolean foundCustomer;
+      boolean valid;
+      double balance;
+
+       
+            
+                do {
+                valid = true;
+                System.out.print("Deposit Amount (Rs.): ");
+                input = SCANNER.nextDouble();
+                SCANNER.nextLine();
+        
+                if (input < 500.00) {
+                    valid = false;
+                    System.out.printf("%sInsufficient Amount. Deposit should be more than Rs.500.00%s \n", COLOR_RED_BOLD, RESET);
+                } else {
+                    balance = Double.valueOf(customers[i][2]).doubleValue();
+                    balance += input;
+                    customers[i][2] = Double.toString(balance);
+                    System.out.println("Deposit was successful.");
+                    System.out.println("New Balance: " + balance);
+                }
+            } while (!valid);break;         
+        }
+      }
+
+
+        
+    }
+
    
 
     public static String nameValidation() { 

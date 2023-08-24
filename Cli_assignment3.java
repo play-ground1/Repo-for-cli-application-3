@@ -200,6 +200,11 @@ public class Cli_assignment3 {
             } while (!valid);         
         }
       }
+      System.out.println();
+      System.out.print("Do you want to continue (Y/n)? ");
+      if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+      screen = DASHBOARD;
+      break;  
 
       case TRANSFER:
       valid= idValidation();
@@ -234,6 +239,12 @@ public class Cli_assignment3 {
        } while (!valid);         
    }
  }
+
+      System.out.println();
+      System.out.print("Do you want to continue (Y/n)? ");
+      if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+      screen = DASHBOARD;
+      break;  
           case CHECK_ACCOUNT_BALANCE:
 
            valid= idValidation();
@@ -245,10 +256,7 @@ public class Cli_assignment3 {
                     break;  
 
             }
-
-           name=nameValidation();
-
-           
+   
            for (int i = 0; i < customers.length; i++) {
                if (customers[i][0].equals(id)) {
                    foundCustomer = true;
@@ -281,7 +289,7 @@ public class Cli_assignment3 {
                     break;  
 
             }
-
+        if(valid){
            int deleteIndex=0;
            
            for (int i = 0; i < customers.length; i++) {
@@ -291,6 +299,19 @@ public class Cli_assignment3 {
             break;
 
         }
+        String[][] deleteCustomers = new String[customers.length - 1][3];
+        for (int j = 0; j < deleteCustomers.length; j++) {
+            if(j<deleteIndex){
+                deleteCustomers[j]=customers[j];
+            }
+            if(j>=deleteIndex){
+                deleteCustomers[j]=customers[j+1];
+            }
+        
+            customers=deleteCustomers;
+        }
+    }
+            System.out.println("Account deleted successfully ");
             
            }
            if (!foundCustomer) {
@@ -311,6 +332,7 @@ public class Cli_assignment3 {
          public static boolean idValidation() {
             System.out.print("Enter Customer Account Number: ");
             String id = SCANNER.nextLine().strip();
+
                  if (id.startsWith("SDB-") && id.length() == 9) {
                 String numberPart = id.substring(5);
                     for (int i = 0; i < numberPart.length(); i++) {
@@ -323,6 +345,8 @@ public class Cli_assignment3 {
             return false;
         }
     }
+
+
 
         public static String nameValidation() { 
                     final String COLOR_RED_BOLD = "\033[31;1m";
