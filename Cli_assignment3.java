@@ -19,7 +19,6 @@ public class Cli_assignment3 {
 
         String[][] customers = new String[0][];
         String screen = DASHBOARD;
-        //boolean valid;
         String name;
         double balance;
         boolean foundCustomer = false;
@@ -196,22 +195,13 @@ public class Cli_assignment3 {
       screen = DASHBOARD;
       break;  
 
-
-
-
-
-
-
-
-
-
-
-
-
-
       case TRANSFER:
 
+      int i;
+      double toBalance=0;
+      double fromBalance=0;
       valid= idValidation();
+      double  transferAmount;
          if(!valid){
                 System.out.println();
                   System.out.print("Account number dose not exist. Do you want to continue (Y/n)? ");
@@ -220,13 +210,13 @@ public class Cli_assignment3 {
                     break;  
             }
 
-      for (int i = 0; i < customers.length; i++) {
-         double transferAmount;
+      for (i = 0; i < customers.length; i++) {
+        
         if(customers[i][0].equals(id)){
                foundCustomer=true;
-            do {
+        }
            valid = true;
-
+            if(foundCustomer==true);
            System.out.print("Enter amount to trnsfer (Rs.): ");
            transferAmount = SCANNER.nextDouble();
            SCANNER.nextLine();
@@ -235,41 +225,43 @@ public class Cli_assignment3 {
                valid = false;
                System.out.printf("%sInsufficient Amount. Transfer should be more than Rs.100.00%s \n", COLOR_RED_BOLD, RESET);
            } else {
-               balance = Double.valueOf(customers[i][2]).doubleValue();
-               balance -= transferAmount;
-               customers[i][2] = Double.toString(balance);
-               System.out.println("Transfer was successful.");
-               System.out.println("From A/C Balance: " + balance);
+               fromBalance = Double.valueOf(customers[i][2]).doubleValue();
+               fromBalance -= transferAmount;
+               balance=fromBalance;
+               customers[i][2] = Double.toString(fromBalance);    
            }
-       } while (!valid);         
+
+       valid= idValidation();
+         if(!valid){
+                System.out.println();
+                  System.out.print("Account number dose not exist. Do you want to continue (Y/n)? ");
+                    if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
+                    screen = DASHBOARD;
+                    break;  
+            }
+
+      for ( i = 0; i < customers.length; i++) {
+         
+          if(customers[i][0].equals(id)){
+                 foundCustomer=true;
+    
+              valid = true;
+               toBalance = Double.valueOf(customers[i][2]).doubleValue();
+               toBalance += transferAmount;
+                customers[i][2] = Double.toString(toBalance);
        
    }
 }
-
-//       valid= idValidation();
-//          if(!valid){
-//                 System.out.println();
-//                   System.out.print("Account number dose not exist. Do you want to continue (Y/n)? ");
-//                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
-//                     screen = DASHBOARD;
-//                     break;  
-//             }
-
-//       for (int i = 0; i < customers.length; i++) {
-//          double transferAmount;
-//         if(customers[i][0].equals(id)){
-//                foundCustomer=true;
-//             do {
-//            valid = true;
-//                balance = Double.valueOf(customers[i][2]).doubleValue();
-//                balance -= transferAmount;
-//                customers[i][2] = Double.toString(balance);
-//                System.out.println("To A/C Balance: " + balance);
-           
-//        } while (!valid);         
-       
-//    }
-// }
+         System.out.println("From A/C Balance: " + fromBalance);
+         System.out.println("To A/C Balance: " + toBalance);
+      }
+        System.out.println();
+        System.out.print("Do you want to continue (Y/n)? ");
+           if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) {
+               continue;
+           }
+           screen = DASHBOARD;
+           break;
 
           case CHECK_ACCOUNT_BALANCE:
 
@@ -283,11 +275,13 @@ public class Cli_assignment3 {
 
             }
    
-           for (int i = 0; i < customers.length; i++) {
+           for ( i = 0; i < customers.length; i++) {
                if (customers[i][0].equals(id)) {
                    foundCustomer = true;
                    balance = Double.valueOf(customers[i][2]).doubleValue();
-                   System.out.println("Current Account Balance: Rs." + balance);
+                    System.out.println();
+                   System.out.println("name :"+customers[i][1]);
+                   System.out.println("Current Account Balance  : Rs." + balance);
                    System.out.println("Available Account Balance: Rs." + (balance-500));
                    break;
                }
@@ -305,7 +299,8 @@ public class Cli_assignment3 {
            screen = DASHBOARD;
            break;
 
-           case DELETE_ACCOUNT://have  to complete
+           case DELETE_ACCOUNT:
+           
            valid=idValidation();
               if(!valid){
                 System.out.println();
@@ -313,12 +308,11 @@ public class Cli_assignment3 {
                     if (SCANNER.nextLine().strip().toUpperCase().equals("Y")) continue;
                     screen = DASHBOARD;
                     break;  
-
             }
         if(valid){
        
             int deleteIndex = 0;
-            for (int i = 0; i < customers.length; i++) {
+            for ( i = 0; i < customers.length; i++) {
                 if (customers[i][0].equals(id)) {
                     foundCustomer = true;
                     deleteIndex = i;
@@ -329,7 +323,7 @@ public class Cli_assignment3 {
             if (foundCustomer) {
                 String[][] deletCustomers = new String[customers.length - 1][3];
                 int newIndex = 0;
-                for (int i = 0; i < customers.length; i++) {
+                for ( i = 0; i < customers.length; i++) {
                   if (i != deleteIndex) {
                         deletCustomers[newIndex] = customers[i];
                          newIndex++;
@@ -348,7 +342,6 @@ public class Cli_assignment3 {
            }
            screen = DASHBOARD;
            break;
-
             }
         } while (true);
     }
@@ -368,14 +361,9 @@ public class Cli_assignment3 {
             return false;
         }
     }
-
-
-
         public static String nameValidation() { 
                     final String COLOR_RED_BOLD = "\033[31;1m";
                     final String RESET = "\033[0m";
-                    final String ERROR_MSG = String.format("\t%s%s%s\n", COLOR_RED_BOLD, "%s", RESET);
-
                         boolean valid;
                         String name;
             do {
@@ -396,8 +384,6 @@ public class Cli_assignment3 {
                             }
                         }
                     } while (!valid);
-
                     return(name);
-
         } 
 }
